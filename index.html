@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>March Madness 2026 — Vibe Check</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23e87c4f'/%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23c45e30' stroke-width='1'/%3E%3Cpath d='M1 16h30M16 1v30' stroke='%23c45e30' stroke-width='1.2' fill='none'/%3E%3Cpath d='M4 7 Q16 16 4 25' stroke='%23c45e30' stroke-width='1.2' fill='none'/%3E%3Cpath d='M28 7 Q16 16 28 25' stroke='%23c45e30' stroke-width='1.2' fill='none'/%3E%3Cpath d='M7 4 Q16 16 25 4' stroke='%23c45e30' stroke-width='1.2' fill='none'/%3E%3Cpath d='M7 28 Q16 16 25 28' stroke='%23c45e30' stroke-width='1.2' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -14,69 +15,32 @@
 <div class="header">
   <div class="header-inner">
     <div class="logo">March Madness 2026 <span>— Vibe Check</span></div>
-    <div class="region-tabs">
-      <button class="tab east active" onclick="showRegion('east')">East</button>
-      <button class="tab west" onclick="showRegion('west')">West</button>
-      <button class="tab midwest" onclick="showRegion('midwest')">Midwest</button>
-      <button class="tab south" onclick="showRegion('south')">South</button>
-      <button class="tab full" onclick="showRegion('full')">Full Bracket</button>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div class="legend" style="border:none;padding:0;margin:0">
+        <div class="legend-item"><div class="vibe-dot" style="background:var(--fire)"></div>On Fire</div>
+        <div class="legend-item"><div class="vibe-dot" style="background:var(--dominant)"></div>Dominant</div>
+        <div class="legend-item"><div class="vibe-dot" style="background:var(--shaky)"></div>Shaky</div>
+        <div class="legend-item"><div class="vibe-dot" style="background:var(--jekyll)"></div>Jekyll</div>
+        <div class="legend-item"><div class="vibe-dot" style="background:var(--dark-horse)"></div>Dark Horse</div>
+        <div class="legend-item"><div class="vibe-dot" style="background:var(--ice)"></div>Iceberg</div>
+      </div>
+      <button class="reset-btn" onclick="resetBracket()">↺ Reset</button>
     </div>
   </div>
 </div>
 
-<div style="max-width:1600px;margin:0 auto">
-<div class="legend">
-  <div class="legend-item"><div class="vibe-dot" style="background:var(--fire)"></div>On Fire 🔥</div>
-  <div class="legend-item"><div class="vibe-dot" style="background:var(--dominant)"></div>Dominant 💪</div>
-  <div class="legend-item"><div class="vibe-dot" style="background:var(--shaky)"></div>Shaky ⚠️</div>
-  <div class="legend-item"><div class="vibe-dot" style="background:var(--ice)"></div>Iceberg 🧊</div>
-  <div class="legend-item"><div class="vibe-dot" style="background:var(--jekyll)"></div>Jekyll &amp; Hyde 🎭</div>
-  <div class="legend-item"><div class="vibe-dot" style="background:var(--dark-horse)"></div>Dark Horse 🔮</div>
-</div>
+<div class="round-nav-wrap">
+  <div id="round-nav" class="round-nav"></div>
 </div>
 
-<!-- EAST REGION -->
-<div id="region-east" class="bracket-container active">
-  <div class="region-header">
-    <div class="region-title" style="color:var(--accent-east)">East Region</div>
-    <div class="region-1seed">1-seed: Duke · Washington D.C. Sweet 16/Elite 8</div>
-  </div>
-  <div class="bracket-grid" id="east-bracket"></div>
+<div class="region-subnav-wrap">
+  <div id="region-subnav" class="region-subnav"></div>
 </div>
 
-<!-- WEST REGION -->
-<div id="region-west" class="bracket-container">
-  <div class="region-header">
-    <div class="region-title" style="color:var(--accent-west)">West Region</div>
-    <div class="region-1seed">1-seed: Arizona · Portland Sweet 16/Elite 8</div>
-  </div>
-  <div class="bracket-grid" id="west-bracket"></div>
+<div class="main-wrap">
+  <div id="main-content" class="main-content"></div>
 </div>
 
-<!-- MIDWEST REGION -->
-<div id="region-midwest" class="bracket-container">
-  <div class="region-header">
-    <div class="region-title" style="color:var(--accent-mid)">Midwest Region</div>
-    <div class="region-1seed">1-seed: Michigan · St. Louis Sweet 16/Elite 8</div>
-  </div>
-  <div class="bracket-grid" id="midwest-bracket"></div>
-</div>
-
-<!-- SOUTH REGION -->
-<div id="region-south" class="bracket-container">
-  <div class="region-header">
-    <div class="region-title" style="color:var(--accent-south)">South Region</div>
-    <div class="region-1seed">1-seed: Florida · Tampa Sweet 16/Elite 8</div>
-  </div>
-  <div class="bracket-grid" id="south-bracket"></div>
-</div>
-
-<!-- FULL BRACKET VIEW -->
-<div id="region-full" class="bracket-container">
-  <div id="full-bracket-root"></div>
-</div>
-
-<!-- TEAM PANEL -->
 <div class="panel-overlay" id="panel-overlay" onclick="closePanel(event)">
   <div class="panel" id="panel">
     <div class="panel-header">
@@ -85,7 +49,7 @@
           <div class="panel-seed-badge" id="panel-seed">#1</div>
           <div class="panel-name" id="panel-name">Duke</div>
         </div>
-        <div class="panel-record" id="panel-record">32-2</div>
+        <div class="panel-record" id="panel-record"></div>
       </div>
       <button class="close-btn" onclick="closePanel()">×</button>
     </div>
